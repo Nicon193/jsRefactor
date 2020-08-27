@@ -36,7 +36,6 @@ test('BigCo Buy Tickets', t => {
 });
 
 
-
 test('BigCo Buy Tickets', t => {
   //given
   const invoice = {
@@ -111,11 +110,11 @@ test('BigCo Buy Tickets', t => {
       'performances': [
           {
               'playID': 'hamlet',
-              'audience': 25,
+              'audience': 55,
           },
           {
               'playID': 'as-like',
-              'audience': 10,
+              'audience': 35,
           },
           {
               'playID': 'othello',
@@ -127,13 +126,12 @@ test('BigCo Buy Tickets', t => {
   const result = statement(invoice, plays);
 
   const expectResult = 'Statement for BigCo\n'
-      + ` Hamlet: $400.00 (25 seats)\n`
-      + ` As You Like It: $330.00 (10 seats)\n`
+      + ` Hamlet: $650.00 (55 seats)\n`
+      + ` As You Like It: $580.00 (35 seats)\n`
       + ` Othello: $400.00 (20 seats)\n`
-      + `Amount owed is $1,130.00\n`
-      + `You earned 2 credits \n`;
+      + `Amount owed is $1,630.00\n`
+      + `You earned 37 credits \n`;
   //then
-
   t.is(result, expectResult);
 });
 
