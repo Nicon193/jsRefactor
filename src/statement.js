@@ -46,38 +46,35 @@
         let formData = [];
         for (let perf of invoice.performances) {
             const play = playFor(perf,plays);
-            let thisAmount = calculateUnitPrice(play, perf);
-            FormData.push({
+            let thisAmount = calculateUnitPrice(perf, play);
+            formData.push({
               playName: play.name,
               amount: usdFormat(thisAmount),
               audience: perf.audience
             })
             totalAmount += thisAmount;
-            volumeCredits += calculateCredits(play, perf);
+            volumeCredits += calculateCredits(perf, play);
           }
           totalAmount = usdFormat(totalAmount);
           return { formData, totalAmount, volumeCredits };
   }
 
+    function createStatementData(invoice, plays){
+        let result = `Statement for ${invoice.customer}\n`;
+        let detail = generateFormData(invoice, plays);
+        for (let formDataDetail of detail.formData) {
+            result += ` ${formDataDetail.playName}: ${formDataDetail.amount} (${formDataDetail.audience} seats)\n`;
+          }
+         result += `Amount owed is ${detail.totalAmount}\n`;
+         result += `You earned ${detail.volumeCredits} credits \n`;
+         return result
 
+    }
 
 
  function statement (invoice, plays) {
-  let totalAmount = 0;
-  let volumeCredits = 0;
-  let result = `Statement for ${invoice.customer}\n`;
 
-  for (let perf of invoice.performances) {
-    const play =  playFor(perf,plays);
-    let thisAmount = calculateUnitPrice(perf,play);
-    volumeCredits += calculateCredits(perf,play);
-    result += ` ${play.name}: ${usdFormat(thisAmount)} (${perf.audience} seats)\n`;
-    totalAmount += thisAmount;
-  }
-  result += `Amount owed is ${usdFormat(totalAmount)}\n`;
-  result += `You earned ${volumeCredits} credits \n`;
-  return result;
-
+    return createStatementData(invoice, plays);
 
 }
 
