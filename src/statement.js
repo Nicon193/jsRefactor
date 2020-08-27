@@ -7,7 +7,7 @@
     }
 
   function calculateUnitPrice(perf,plays){
-    const play = plays[perf.playID];
+    const play =  playFor(perf,plays);
     let thisAmount =0;
           switch (play.type) {
             case 'tragedy':
@@ -30,11 +30,15 @@
       }
 
   function  calculateCredits(perf,plays){
-    const play = plays[perf.playID];
+    const play =  playFor(perf,plays);
     let volumeCredits =0;
     volumeCredits += Math.max(perf.audience - 30, 0);
      if ('comedy' === play.type) volumeCredits += Math.floor(perf.audience / 5);
      return volumeCredits;
+  }
+
+  function playFor(perf,plays){
+    return plays[perf.playID];
   }
 
 
@@ -44,7 +48,7 @@
   let result = `Statement for ${invoice.customer}\n`;
 
   for (let perf of invoice.performances) {
-    const play = plays[perf.playID];
+    const play =  playFor(perf,plays);
     let thisAmount = calculateUnitPrice(perf,plays);
     volumeCredits += calculateCredits(perf,plays);
     result += ` ${play.name}: ${usdFormat(thisAmount)} (${perf.audience} seats)\n`;
