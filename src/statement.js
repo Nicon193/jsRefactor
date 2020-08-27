@@ -6,8 +6,7 @@
              }).format(amount / 100);
     }
 
-  function calculateUnitPrice(perf,plays){
-    const play =  playFor(perf,plays);
+  function calculateUnitPrice(perf,play){
     let thisAmount =0;
           switch (play.type) {
             case 'tragedy':
@@ -29,8 +28,7 @@
            return thisAmount;
       }
 
-  function  calculateCredits(perf,plays){
-    const play =  playFor(perf,plays);
+  function  calculateCredits(perf,play){
     let volumeCredits =0;
     volumeCredits += Math.max(perf.audience - 30, 0);
      if ('comedy' === play.type) volumeCredits += Math.floor(perf.audience / 5);
@@ -41,7 +39,6 @@
     return plays[perf.playID];
   }
 
-
  function statement (invoice, plays) {
   let totalAmount = 0;
   let volumeCredits = 0;
@@ -49,14 +46,16 @@
 
   for (let perf of invoice.performances) {
     const play =  playFor(perf,plays);
-    let thisAmount = calculateUnitPrice(perf,plays);
-    volumeCredits += calculateCredits(perf,plays);
+    let thisAmount = calculateUnitPrice(perf,play);
+    volumeCredits += calculateCredits(perf,play);
     result += ` ${play.name}: ${usdFormat(thisAmount)} (${perf.audience} seats)\n`;
     totalAmount += thisAmount;
   }
   result += `Amount owed is ${usdFormat(totalAmount)}\n`;
   result += `You earned ${volumeCredits} credits \n`;
   return result;
+
+
 }
 
 module.exports = {
