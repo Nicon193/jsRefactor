@@ -1,5 +1,5 @@
 const test = require('ava');
-const {statement} = require('../src/statement');
+const {statement,statementHTML} = require('../src/statement');
 
 
 test('BigCo Buy no performances', t => {
@@ -167,6 +167,36 @@ test('BigCo Buy three performances hamlet, as-like and othello and audience is 5
       + ` Othello: $400.00 (20 seats)\n`
       + `Amount owed is $1,630.00\n`
       + `You earned 37 credits \n`;
+  //then
+  t.is(result, expectResult);
+});
+
+
+test('HTML BigCo Buy three performances hamlet, as-like and othello and audience is 55, 35 and 20', t => {
+  //given
+  const invoice = {
+      'customer': 'BigCo',
+      'performances': [
+          {
+              'playID': 'hamlet',
+              'audience': 55,
+          },
+          {
+              'playID': 'as-like',
+              'audience': 35,
+          },
+          {
+              'playID': 'othello',
+              'audience': 20,
+          },
+      ],
+  };
+  //when
+  const result = statementHTML(invoice, plays);
+
+  const expectResult = '<h1>Statement for BigCo</h1><ul> <li>Hamlet: $650.00 (55 seats)</li> '
+  + '<li>As You Like It: $580.00 (35 seats)</li> <li>Othello: $400.00 (20 seats)</li></ul>'
+  +'<h3>Amount owed is $1,630.00</h3><h4>You earned 37 credits</h4>'
   //then
   t.is(result, expectResult);
 });
