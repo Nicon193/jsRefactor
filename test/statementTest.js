@@ -2,22 +2,32 @@ const test = require('ava');
 const {statement} = require('../src/statement');
 
 
-test('BigCo Buy Tickets', t => {
+test('BigCo Buy no performances', t => {
+  //given
+  const invoice = {
+      'customer': 'BigCo',
+      'performances': [
+      ],
+  };
+  //when
+  const result = statement(invoice, plays);
+
+  const expectResult = 'Statement for BigCo\n'
+      + `Amount owed is $0.00\n`
+      + `You earned 0 credits \n`;
+  //then
+  t.is(result, expectResult);
+
+});
+
+test('BigCo Buy one performances hamlet and audience is 31', t => {
   //given
   const invoice = {
       'customer': 'BigCo',
       'performances': [
           {
               'playID': 'hamlet',
-              'audience': 55,
-          },
-          {
-              'playID': 'as-like',
-              'audience': 35,
-          },
-          {
-              'playID': 'othello',
-              'audience': 40,
+              'audience': 31,
           },
       ],
   };
@@ -25,33 +35,22 @@ test('BigCo Buy Tickets', t => {
   const result = statement(invoice, plays);
 
   const expectResult = 'Statement for BigCo\n'
-      + ` Hamlet: $650.00 (55 seats)\n`
-      + ` As You Like It: $580.00 (35 seats)\n`
-      + ` Othello: $500.00 (40 seats)\n`
-      + `Amount owed is $1,730.00\n`
-      + `You earned 47 credits \n`;
+      + ` Hamlet: $410.00 (31 seats)\n`
+      + `Amount owed is $410.00\n`
+      + `You earned 1 credits \n`;
   //then
   t.is(result, expectResult);
 
 });
 
-
-test('BigCo Buy Tickets', t => {
+test('BigCo Buy one performances hamlet and audience is 29', t => {
   //given
   const invoice = {
       'customer': 'BigCo',
       'performances': [
           {
               'playID': 'hamlet',
-              'audience': 25,
-          },
-          {
-              'playID': 'as-like',
-              'audience': 35,
-          },
-          {
-              'playID': 'othello',
-              'audience': 40,
+              'audience': 29,
           },
       ],
   };
@@ -59,25 +58,65 @@ test('BigCo Buy Tickets', t => {
   const result = statement(invoice, plays);
 
   const expectResult = 'Statement for BigCo\n'
-      + ` Hamlet: $400.00 (25 seats)\n`
-      + ` As You Like It: $580.00 (35 seats)\n`
-      + ` Othello: $500.00 (40 seats)\n`
-      + `Amount owed is $1,480.00\n`
-      + `You earned 22 credits \n`;
+      + ` Hamlet: $400.00 (29 seats)\n`
+      + `Amount owed is $400.00\n`
+      + `You earned 0 credits \n`;
   //then
   t.is(result, expectResult);
+
 });
 
-
-test('BigCo Buy Tickets', t => {
+test('BigCo Buy one performances as-like and audience is 21', t => {
   //given
   const invoice = {
       'customer': 'BigCo',
       'performances': [
           {
-              'playID': 'hamlet',
-              'audience': 55,
+              'playID': 'as-like',
+              'audience': 21,
           },
+
+      ],
+  };
+  //when
+  const result = statement(invoice, plays);
+
+  const expectResult = 'Statement for BigCo\n'
+      + ` As You Like It: $468.00 (21 seats)\n`
+      + `Amount owed is $468.00\n`
+      + `You earned 4 credits \n`;
+  //then
+  t.is(result, expectResult);
+});
+
+test('BigCo Buy one performances as-like and audience is 19', t => {
+  //given
+  const invoice = {
+      'customer': 'BigCo',
+      'performances': [
+          {
+              'playID': 'as-like',
+              'audience': 19,
+          },
+      ],
+  };
+  //when
+  const result = statement(invoice, plays);
+
+  const expectResult = 'Statement for BigCo\n'
+      + ` As You Like It: $357.00 (19 seats)\n`
+      + `Amount owed is $357.00\n`
+      + `You earned 3 credits \n`;
+  //then
+  t.is(result, expectResult);
+});
+
+test('BigCo Buy two performances as-like and othello and audience is 10 and 40', t => {
+  //given
+  const invoice = {
+      'customer': 'BigCo',
+      'performances': [
+
           {
               'playID': 'as-like',
               'audience': 10,
@@ -92,18 +131,15 @@ test('BigCo Buy Tickets', t => {
   const result = statement(invoice, plays);
 
   const expectResult = 'Statement for BigCo\n'
-      + ` Hamlet: $650.00 (55 seats)\n`
       + ` As You Like It: $330.00 (10 seats)\n`
       + ` Othello: $500.00 (40 seats)\n`
-      + `Amount owed is $1,480.00\n`
-      + `You earned 37 credits \n`;
+      + `Amount owed is $830.00\n`
+      + `You earned 12 credits \n`;
   //then
   t.is(result, expectResult);
-
 });
 
-
-test('BigCo Buy Tickets', t => {
+test('BigCo Buy three performances hamlet, as-like and othello and audience is 55, 35 and 20', t => {
   //given
   const invoice = {
       'customer': 'BigCo',
@@ -135,9 +171,6 @@ test('BigCo Buy Tickets', t => {
   t.is(result, expectResult);
 });
 
-
-
-
 const invoice = {
   'customer': 'BigCo',
   'performances': [
@@ -155,7 +188,6 @@ const invoice = {
     },
   ],
 };
-
 
 const plays = {
   'hamlet': {
