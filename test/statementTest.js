@@ -171,7 +171,6 @@ test('BigCo Buy three performances hamlet, as-like and othello and audience is 5
   t.is(result, expectResult);
 });
 
-
 test('HTML BigCo Buy three performances hamlet, as-like and othello and audience is 55, 35 and 20', t => {
   //given
   const invoice = {
@@ -200,6 +199,30 @@ test('HTML BigCo Buy three performances hamlet, as-like and othello and audience
   //then
   t.is(result, expectResult);
 });
+
+test('Throws exception when get statement given BigCo unknown type play performances', t => {
+    //given
+    const invoice = {
+        'customer': 'BigCo',
+        'performances': [
+            {
+                'playID': 'errorType',
+                'audience': 20,
+            },
+        ],
+    };
+
+    const plays = {
+        'errorType': {
+            'name': 'ErrorType',
+            'type': 'unknown',
+        },
+    };
+    //when
+    //then
+    t.throws(() => statement(invoice, plays), 'unknown type: unknown')
+})
+
 
 const invoice = {
   'customer': 'BigCo',
