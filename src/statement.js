@@ -39,6 +39,29 @@
     return plays[perf.playID];
   }
 
+
+  function generateFormData(invoice,plays){
+        let totalAmount = 0;
+        let volumeCredits = 0;
+        let formData = [];
+        for (let perf of invoice.performances) {
+            const play = playFor(perf,plays);
+            let thisAmount = calculateUnitPrice(play, perf);
+            FormData.push({
+              playName: play.name,
+              amount: usdFormat(thisAmount),
+              audience: perf.audience
+            })
+            totalAmount += thisAmount;
+            volumeCredits += calculateCredits(play, perf);
+          }
+          totalAmount = usdFormat(totalAmount);
+          return { formData, totalAmount, volumeCredits };
+  }
+
+
+
+
  function statement (invoice, plays) {
   let totalAmount = 0;
   let volumeCredits = 0;
