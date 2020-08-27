@@ -72,12 +72,28 @@
     }
 
 
+    function createStatementHTML(invoice, plays) {
+        let result = `<h1>Statement for ${invoice.customer}</h1>`;
+        let detail = generateFormData(invoice, plays);
+        result += `<ul>`;
+        for (let formDataDetail of detail.formData) {
+            result += ` <li>${formDataDetail.playName}: ${formDataDetail.amount} (${formDataDetail.audience} seats)</li>`;
+        }
+        result += `</ul>`;
+        result += `<h3>Amount owed is ${detail.totalAmount}</h3>`;
+        result += `<h4>You earned ${detail.volumeCredits} credits</h4>`;
+        return result
+    }
+
  function statement (invoice, plays) {
-
     return createStatementData(invoice, plays);
+}
 
+ function statementHTML(invoice, plays){
+    return createStatementHTML(invoice,plays);
 }
 
 module.exports = {
   statement,
+  statementHTML,
 };
